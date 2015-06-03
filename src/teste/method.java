@@ -15,4 +15,7 @@ public int getparametros(){
 	elements = element.select("ownedParameter");
 	return elements.size();
 }
+public String getName() {
+	return element.attr("name");
+}
 }

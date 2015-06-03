@@ -29,11 +29,14 @@ public class Main {
 		System.out.println("O modelo tem " +classes.size() +" classes");
 		for (Element classe  : classes) {
 		classe cla = new classe(classe); 
+		cla.getName();
 		int methodsCount = cla.getmethodsCount();
 		
 		System.out.println("A Classe tem  "+ methodsCount +" metodos");
 		for (int index = 0 ; index<methodsCount; index++) {
-		 System.out.println("O metodo tem " +cla.getMethod(index).getparametros()+" parametros");
+			cla.getMethod(index).getName();
+			System.out.println("O metodo tem " +cla.getMethod(index).getparametros()+" parametros");
+		
 		}} 
 		
 		System.out.println(" Worked");

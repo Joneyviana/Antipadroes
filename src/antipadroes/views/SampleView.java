@@ -34,6 +34,12 @@ import java.net.URI;
 
 
 
+
+
+
+
+
+
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -66,6 +72,12 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import teste.classe;
 //import org.jsoup.Jsoup;
 //import org.jsoup.nodes.Document;
 //import org.jsoup.nodes.Element;
@@ -121,6 +133,7 @@ public class SampleView extends ViewPart {
 	 */
 	private StyleRange range;
 	private GridData gd;
+	private Color cinza_escuro;
 
 	 
 	//class ViewContentProvider implements IStructuredContentProvider {
@@ -157,24 +170,41 @@ public class SampleView extends ViewPart {
 	          
 		      parent = parent1;
 		      RowLayout rowlayout = new RowLayout();
-		
+		      Label class_resultado = new Label(parent1, SWT.SINGLE);
 		      
-		      //final ScrolledComposite comp = new ScrolledComposite(parent, SWT.V_SCROLL|SWT.BORDER) ;
 		      GridLayout layoutparent = new GridLayout();
 		      GridLayout layoutcomposite = new GridLayout();
 		      layoutparent.numColumns = 2 ;
 		      layoutcomposite.numColumns = 12 ;
+		      device = new Device() {
+					
+					@Override
+					public long internal_new_GC(GCData arg0) {
+						// TODO Auto-generated method stub
+						return 0;
+					}
+					
+					@Override
+					public void internal_dispose_GC(long arg0, GCData arg1) {
+						// TODO Auto-generated method stub
+						
+					}
+				};
+				
+				cinza_escuro = new Color(device, 100,100,100); 
+		      //final ScrolledComposite comp = new ScrolledComposite(parent, SWT.V_SCROLL|SWT.BORDER) ;
+				 
+				
 		     // parent.setSize(1000, parent.getSize().y);
 		     
 		     
 		     
 		      
+		     
+		    
 		      
-		      MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
-		      frescura.definir_ponto(120, 150 , "2");
 		      
-		      
-		      rowlayout.type = SWT.VERTICAL;
+		     
         IWorkspace work = ResourcesPlugin.getWorkspace();
         IResourceChangeListener listener = new IResourceChangeListener() {
         	 
@@ -186,56 +216,63 @@ public class SampleView extends ViewPart {
 			private StyleRange range;
 			private StyleRange corname;
 			private StyleRange range2;
+			private Color cinza_escuro;
+			private int parametros = 0;
 
-			public void resourceChanged1(IResourceChangeEvent event) {
-        	
+			public void resourceChanged(IResourceChangeEvent event) {
+        	    
 				root = ResourcesPlugin.getWorkspace().getRoot();
         		IResourceDelta[]  recurso  = event.getDelta().getAffectedChildren();
-        		
-        		make_path(recurso);
+
+				
+				 color = new Color(device, 80, 180, 80);
+				 color1 = new Color(device, 230, 40, 40);
+				 cinza_escuro = new Color(device, 100,100,100);
+				 Color  prata = new Color(device, 200, 200, 200);
+				 make_path(recurso);
         	
+        		try {
+        		File input = new File(arquivo_uml);
         		
-        		
-        		
-        		/*Document doc = Jsoup.parse(input , "UTF-8");
+        		Document doc = Jsoup.parse(input , "UTF-8");
 				
 				Elements classes = doc.select("packagedElement[xsi:type=\"uml:Class\"]");
 				System.out.println("tamanho!" + classes.size());
-				
-				container.setText("");
-				container.setLineSpacing(3);
-				int lastchar = 0;
+				int methods = (doc.select("ownedOperation").size());
+				float mediamethods = methods/classes.size();
+				if (methods >=1){
+				parametros  = doc.select("ownedParameter").size()/methods;
+				}
+				System.out.println("A media de métodos  por classe é "+ mediamethods );
+				System.out.println("A media de parametros por função é "+parametros );
+				System.out.println("O modelo tem " +classes.size() +" classes");
 				for (Element classe  : classes) {
-	        		Classe cl = Classe.getInstanceNotEqualOther(classe);
-	        		extendmetricas cla  = new extendmetricas(cl);
-	        		if ((cla.getCBO()>=2)||(cla.getNOC()>=2)){ 
-	        			setcolorRangeLine(color1, "\n"+cla.getName()+"\n");
-	        		    System.out.println("sim vermelho");
-	        		}
-	        		    else 
-	        		setcolorRangeLine(color, "\n"+cla.getName()+"\n");
-	        		Decision_color(cla.getNOC(),"NOC");
-	        		Decision_color(cla.getCBO(),"CBO");
-	        		Decision_color(cla.getDIT(),"DIT");
-	        		Decision_color(cla.getCS(),"CS");	
-	        		Decision_color(cla.getNOO(),"NOO");	
-	        		Decision_color(cla.getNOA(),"NOA");
-		        	 
-	        		 
-	        	*/		
+					classe cla = new classe(classe); 
+					MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
+				      frescura.definir_ponto(label.getLocation().x+150,label.getLocation().y +40, String.valueOf(cla.getmethodsCount()));
+				      
+					Label label = new Label(parent, SWT.NONE);
+					 label.setText( cla.getName());
+				      label.setForeground(prata);
+				      System.out.println("quero ver isso: "+label.getLayoutData());
+				      label.setBackground(cinza_escuro);
+				      
+				  
+				int lastchar = 0;
+				} }catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
 				
 					
-					File input = new File(arquivo_uml);
-
+        		  
+        		parent.pack();	
 					
-				   
         		
-        		container.pack();
         	
-				parent.redraw();
-				
-				parent.pack();	
+        	
         		
+				
 			
         		
         		
@@ -258,11 +295,7 @@ public class SampleView extends ViewPart {
 				}
 				}
 
-			@Override
-			public void resourceChanged(IResourceChangeEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			
                  
 		
            };
@@ -271,31 +304,16 @@ public class SampleView extends ViewPart {
         parent.setLayout(layoutparent);
         //comp.setLayout(rowlayout);
         
-       
+        parent.getParent().setBackground(cinza_escuro); 
         
-      device = new Device() {
-			
-			@Override
-			public long internal_new_GC(GCData arg0) {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-			
-			@Override
-			public void internal_dispose_GC(long arg0, GCData arg1) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		
-		 color = new Color(device, 80, 180, 80);
-		 color1 = new Color(device, 230, 40, 40);
-		 Color cinza_escuro = new Color(device, 100,100,100);
-		//comp.setBackground(new Color(device , 10,10,10));
-	
-		parent.setBackground(cinza_escuro);
+     
+	      
+	    
 	    
 	     
+			
+			
+  		
 	
 		
 	}      

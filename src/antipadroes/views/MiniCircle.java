@@ -33,8 +33,8 @@ public class MiniCircle extends Composite implements PaintListener{
 
 		private int x;
 		private int y;
-		private int height = 24;
-		private int width = 24;
+		private int height = 23;
+		private int width = 23;
 		private Device device;
 		private String str;
 
@@ -98,7 +98,23 @@ public class MiniCircle extends Composite implements PaintListener{
 		    arg0.gc.setBackground(verde);
 		    arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_WHITE));
 		    arg0.gc.fillOval(0, 0, width-5, height-5);
-		    arg0.gc.drawText(str, 5, 1)   ;
+		    FontData fo = new FontData("helvetica", 8, SWT.BOLD); 
+			
+		    arg0.gc.setFont(new Font(new Device() {
+	    		
+	    		@Override
+	    		public long internal_new_GC(GCData arg0) {
+	    			
+	    			return 0;
+	    		}
+	    		
+	    		@Override
+	    		public void internal_dispose_GC(long arg0, GCData arg1) {
+	    			// TODO Auto-generated method stub
+	    			
+	    		}
+	    	},fo ));
+		    arg0.gc.drawText(str, 6, 2)   ;
 		    setSize(width, height);
 			   setLocation(x, y);
 		     
