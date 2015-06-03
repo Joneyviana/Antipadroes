@@ -170,12 +170,12 @@ public class SampleView extends ViewPart {
 	          
 		      parent = parent1;
 		      RowLayout rowlayout = new RowLayout();
-		      Label class_resultado = new Label(parent1, SWT.SINGLE);
+		     
 		      
 		      GridLayout layoutparent = new GridLayout();
-		      GridLayout layoutcomposite = new GridLayout();
+		      
 		      layoutparent.numColumns = 2 ;
-		      layoutcomposite.numColumns = 12 ;
+		       
 		      device = new Device() {
 					
 					@Override
@@ -239,6 +239,8 @@ public class SampleView extends ViewPart {
 				Elements classes = doc.select("packagedElement[xsi:type=\"uml:Class\"]");
 				System.out.println("tamanho!" + classes.size());
 				int methods = (doc.select("ownedOperation").size());
+				int  countx = 50 ;
+				int county = 20;
 				float mediamethods = methods/classes.size();
 				if (methods >=1){
 				parametros  = doc.select("ownedParameter").size()/methods;
@@ -249,14 +251,17 @@ public class SampleView extends ViewPart {
 				for (Element classe  : classes) {
 					classe cla = new classe(classe); 
 					MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
-				      frescura.definir_ponto(label.getLocation().x+150,label.getLocation().y +40, String.valueOf(cla.getmethodsCount()));
-				      
+				    System.out.print("sdfsdfhjsdfjsdf: "+county);  
+					frescura.definir_ponto(0,0, String.valueOf(cla.getmethodsCount()));
+				     
 					Label label = new Label(parent, SWT.NONE);
 					 label.setText( cla.getName());
 				      label.setForeground(prata);
+				      label.setSize(20,20);
+				      System.out.println("Essa é alocação: "+label.getLocation());
 				      System.out.println("quero ver isso: "+label.getLayoutData());
 				      label.setBackground(cinza_escuro);
-				      
+				      county+= 25;
 				  
 				int lastchar = 0;
 				} }catch (IOException e) {
