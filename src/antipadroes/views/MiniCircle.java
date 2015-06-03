@@ -33,9 +33,10 @@ public class MiniCircle extends Composite implements PaintListener{
 
 		private int x;
 		private int y;
-		private int height = 40;
-		private int width = 20;
+		private int height = 24;
+		private int width = 24;
 		private Device device;
+		private String str;
 
 
 
@@ -48,16 +49,17 @@ public class MiniCircle extends Composite implements PaintListener{
 
 		
 		
-		public void definir_ponto(int x , int y ){
+		public void definir_ponto(int x , int y , String str ){
 			this.x = x ;
 			  this.y = y ;
-			
+			  this.str = str ;
 			 
 			   
 			  
 			 
 			   
-			   setBounds(x, y, x+130, y+110);
+			   setSize(width, height);
+			   setLocation(x, y);
 			   setFocus();	  
 		       setVisible(true);
 		       
@@ -77,10 +79,28 @@ public class MiniCircle extends Composite implements PaintListener{
 			
 		    
 		    System.out.println("fortalece ai po");
-		    arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
-			arg0.gc.setLineAttributes(new LineAttributes(1));
-		     this.setBackground(new Color(arg0.display,230,230,230 ));
-			 
+		    device = new Device() {
+				
+				@Override
+				public long internal_new_GC(GCData arg0) {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+				
+				@Override
+				public void internal_dispose_GC(long arg0, GCData arg1) {
+					// TODO Auto-generated method stub
+					
+				}
+			};
+			
+			 Color verde = new Color(device, 80, 180, 80);
+		    arg0.gc.setBackground(verde);
+		    arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_WHITE));
+		    arg0.gc.fillOval(0, 0, width-5, height-5);
+		    arg0.gc.drawText(str, 5, 1)   ;
+		    setSize(width, height);
+			   setLocation(x, y);
 		     
 			 
 			 

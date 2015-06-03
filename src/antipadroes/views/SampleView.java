@@ -1,5 +1,5 @@
 package antipadroes.views;
-
+		
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
@@ -66,10 +66,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+//import org.jsoup.Jsoup;
+//import org.jsoup.nodes.Document;
+//import org.jsoup.nodes.Element;
+//import org.jsoup.select.Elements;
 
 
 
@@ -157,28 +157,21 @@ public class SampleView extends ViewPart {
 	          
 		      parent = parent1;
 		      RowLayout rowlayout = new RowLayout();
-		      Label class_resultado = new Label(parent1, SWT.SINGLE);
-		      class_resultado.setText("Resultado Metricas");
-		      final Composite composite = new Composite(parent ,SWT.SINGLE|SWT.BORDER);
-		      final ScrolledComposite comp = new ScrolledComposite(parent, SWT.V_SCROLL|SWT.BORDER) ;
+		
+		      
+		      //final ScrolledComposite comp = new ScrolledComposite(parent, SWT.V_SCROLL|SWT.BORDER) ;
 		      GridLayout layoutparent = new GridLayout();
 		      GridLayout layoutcomposite = new GridLayout();
 		      layoutparent.numColumns = 2 ;
 		      layoutcomposite.numColumns = 12 ;
 		     // parent.setSize(1000, parent.getSize().y);
-		      container = new StyledText(comp, 0);
-		      container.setSize(400,200);
-		      comp.setContent(container);
 		     
-		      composite.setSize(500, 300);
-		      composite.setLocation(420 ,0);
-		 
-		      composite.setLayout(layoutcomposite);
-				//CBOtext.setLayoutData(gd);
-		      Button buton = new Button(parent, SWT.PUSH);
-		      buton.setText("refresh");
+		     
+		     
+		      
+		      
 		      MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
-		      frescura.definir_ponto(200, 300);
+		      frescura.definir_ponto(120, 150 , "2");
 		      
 		      
 		      rowlayout.type = SWT.VERTICAL;
@@ -238,9 +231,9 @@ public class SampleView extends ViewPart {
 				   
         		
         		container.pack();
-        		composite.redraw();
+        	
 				parent.redraw();
-				composite.pack();
+				
 				parent.pack();	
         		
 			
@@ -276,7 +269,7 @@ public class SampleView extends ViewPart {
            
         work.addResourceChangeListener(listener);
         parent.setLayout(layoutparent);
-        comp.setLayout(rowlayout);
+        //comp.setLayout(rowlayout);
         
        
         
@@ -297,14 +290,12 @@ public class SampleView extends ViewPart {
 		
 		 color = new Color(device, 80, 180, 80);
 		 color1 = new Color(device, 230, 40, 40);
-		
-		comp.setBackground(new Color(device , 10,10,10));
+		 Color cinza_escuro = new Color(device, 100,100,100);
+		//comp.setBackground(new Color(device , 10,10,10));
 	
-		
+		parent.setBackground(cinza_escuro);
 	    
-	     container.redraw();
-	     container.setEditable(false);
-		container.setCaret(null);
+	     
 	
 		
 	}      
