@@ -67,6 +67,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -138,7 +139,7 @@ public class SampleView extends ViewPart {
 	private StyleRange range;
 	private GridData gd;
 	private Color cinza_escuro;
-
+    private RGB rgb ;
 	 
 	//class ViewContentProvider implements IStructuredContentProvider {
 		//public void inputChanged(Viewer v, Object oldInput, Object newInput) {
@@ -230,7 +231,7 @@ public class SampleView extends ViewPart {
 				 color = new Color(device, 80, 180, 80);
 				 color1 = new Color(device, 230, 40, 40);
 				 cinza_escuro = new Color(device, 100,100,100);
-				 Color  prata = new Color(device, 200, 200, 200);
+				 Color  prata = new Color(device, 220, 220, 220);
 				 make_path(recurso);
         	
         		try {
@@ -268,13 +269,42 @@ public class SampleView extends ViewPart {
 				     
 				      lista.add(label);
 				      MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
-					    
-						frescura.definir_ponto(label.getSize().x +5, county, String.valueOf(cla.getmethodsCount()));
-				        circles.add(frescura);
+					    if(cla.getmethodsCount()<= mediamethods) {
+					    	rgb = new RGB(80, 180,80);
+					    }
+					    else {
+					    	rgb = new RGB(200, 100,100);
+					    }
+					    frescura.definir_ponto(label.getSize().x +5, county, String.valueOf(cla.getmethodsCount()),rgb);
+					    countx = 0;
+					    county +=25;
+					    for (int index = 0 ; index<cla.getmethodsCount(); index++) {
+					    	
+					    	cla.getMethod(index).getName(); 
+					    	System.out.println("O metodo tem " +cla.getMethod(index).getparametros()+" parametros");
+					    	Label label1 = new Label(parent, SWT.NONE);
+							 label1.setText( cla.getMethod(index).getName());
+						      label1.setForeground(prata);
+						      label1.setFont(new Font(device, fo));
+						      int largura = cla.getMethod(index).getName().length()*8;
+						      label1.setSize( largura, 20);
+						     
+						      label1.setLocation(countx+40, county);	
+						      countx +=largura+40; 
+						      MiniCircle frescura1 = new MiniCircle(parent, SWT.NONE);
+							    if(cla.getMethod(index).getparametros()<= parametros) {
+							    	rgb = new RGB(80, 180,80);
+							    }
+							    else {
+							    	rgb = new RGB(200, 100,100);
+							    }
+							    frescura1.definir_ponto(countx+5  , county, String.valueOf(cla.getMethod(index).getparametros()),rgb);
+					    }
+					    circles.add(frescura);
 						county+= 25;
-				  
+				}
 				int lastchar = 0;
-				} }catch (IOException e) {
+				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	

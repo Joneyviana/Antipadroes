@@ -33,10 +33,11 @@ public class MiniCircle extends Composite implements PaintListener{
 
 		private int x;
 		private int y;
-		private int height = 23;
-		private int width = 23;
+		private int height = 20;
+		private int width = 20;
 		private Device device;
 		private String str;
+		private RGB rgb;
 
 
 
@@ -49,12 +50,12 @@ public class MiniCircle extends Composite implements PaintListener{
 
 		
 		
-		public void definir_ponto(int x , int y , String str ){
+		public void definir_ponto(int x , int y , String str  , RGB rgb){
 			this.x = x ;
 			  this.y = y ;
 			  this.str = str ;
 			 
-			   
+			   this.rgb = rgb ;
 			  
 			 
 			   
@@ -93,12 +94,12 @@ public class MiniCircle extends Composite implements PaintListener{
 					
 				}
 			};
-			
-			 Color verde = new Color(device, 80, 180, 80);
-		    arg0.gc.setBackground(verde);
+			 
+			 Color cor = new Color(device, rgb);
+		    arg0.gc.setBackground(cor);
 		    arg0.gc.setForeground(arg0.display.getSystemColor(SWT.COLOR_WHITE));
 		    arg0.gc.fillOval(0, 0, width-5, height-5);
-		    FontData fo = new FontData("helvetica", 8, SWT.BOLD); 
+		    FontData fo = new FontData("helvetica", 6, SWT.BOLD); 
 			
 		    arg0.gc.setFont(new Font(new Device() {
 	    		
