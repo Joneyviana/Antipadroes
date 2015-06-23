@@ -16,6 +16,7 @@ import org.eclipse.swt.SWT;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 
 
 
@@ -61,6 +62,8 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -120,8 +123,9 @@ public class SampleView extends ViewPart {
     private Color color1 ;
     private Device device;
 	private Composite parent ;
-
-	private StyledText container;
+    private ArrayList<Label> lista = new ArrayList<>();
+    private ArrayList<MiniCircle> circles = new ArrayList<>();
+    private StyledText container;
     /*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap
@@ -169,12 +173,7 @@ public class SampleView extends ViewPart {
 	public void createPartControl(final Composite parent1) {
 	          
 		      parent = parent1;
-		      RowLayout rowlayout = new RowLayout();
 		     
-		      
-		      GridLayout layoutparent = new GridLayout();
-		      
-		      layoutparent.numColumns = 2 ;
 		       
 		      device = new Device() {
 					
@@ -218,12 +217,15 @@ public class SampleView extends ViewPart {
 			private StyleRange range2;
 			private Color cinza_escuro;
 			private int parametros = 0;
+			private ArrayList<Element> labels;
+			private boolean add;
+			private boolean add2;
 
 			public void resourceChanged(IResourceChangeEvent event) {
         	    
 				root = ResourcesPlugin.getWorkspace().getRoot();
         		IResourceDelta[]  recurso  = event.getDelta().getAffectedChildren();
-
+                   FontData fo = new FontData("Andale Mono", 10, SWT.NONE);
 				
 				 color = new Color(device, 80, 180, 80);
 				 color1 = new Color(device, 230, 40, 40);
@@ -239,29 +241,37 @@ public class SampleView extends ViewPart {
 				Elements classes = doc.select("packagedElement[xsi:type=\"uml:Class\"]");
 				System.out.println("tamanho!" + classes.size());
 				int methods = (doc.select("ownedOperation").size());
-				int  countx = 50 ;
+				int  countx = 100 ;
 				int county = 20;
-				float mediamethods = methods/classes.size();
+				float mediamethods = methods/(float)classes.size();
 				if (methods >=1){
 				parametros  = doc.select("ownedParameter").size()/methods;
+				}
+				for(Label dispensado :lista){
+					int numero =lista.indexOf(dispensado);
+					dispensado.dispose();
+					circles.get(numero).dispose();
 				}
 				System.out.println("A media de métodos  por classe é "+ mediamethods );
 				System.out.println("A media de parametros por função é "+parametros );
 				System.out.println("O modelo tem " +classes.size() +" classes");
 				for (Element classe  : classes) {
 					classe cla = new classe(classe); 
-					MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
-				    System.out.print("sdfsdfhjsdfjsdf: "+county);  
-					frescura.definir_ponto(0,0, String.valueOf(cla.getmethodsCount()));
+					
 				     
 					Label label = new Label(parent, SWT.NONE);
 					 label.setText( cla.getName());
 				      label.setForeground(prata);
-				      label.setSize(20,20);
-				      System.out.println("Essa é alocação: "+label.getLocation());
-				      System.out.println("quero ver isso: "+label.getLayoutData());
-				      label.setBackground(cinza_escuro);
-				      county+= 25;
+				      label.setFont(new Font(device, fo));
+				      label.setSize((label.getText().length())*8 , 20);
+				      label.setLocation(0, county);
+				     
+				      lista.add(label);
+				      MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
+					    
+						frescura.definir_ponto(label.getSize().x +5, county, String.valueOf(cla.getmethodsCount()));
+				        circles.add(frescura);
+						county+= 25;
 				  
 				int lastchar = 0;
 				} }catch (IOException e) {
@@ -306,7 +316,7 @@ public class SampleView extends ViewPart {
            };
            
         work.addResourceChangeListener(listener);
-        parent.setLayout(layoutparent);
+       parent.setLayout(null);
         //comp.setLayout(rowlayout);
         
         parent.getParent().setBackground(cinza_escuro); 
