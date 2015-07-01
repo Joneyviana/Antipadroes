@@ -4,10 +4,13 @@ package antipadroes.views;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.jface.action.*;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
@@ -290,6 +293,7 @@ public class SampleView extends ViewPart {
 						      label1.setSize( largura, 20);
 						     
 						      label1.setLocation(countx+40, county);	
+						      lista.add(label1);
 						      countx +=largura+40; 
 						      MiniCircle frescura1 = new MiniCircle(parent, SWT.NONE);
 							    if(cla.getMethod(index).getparametros()<= parametros) {
@@ -299,10 +303,40 @@ public class SampleView extends ViewPart {
 							    	rgb = new RGB(200, 100,100);
 							    }
 							    frescura1.definir_ponto(countx+5  , county, String.valueOf(cla.getMethod(index).getparametros()),rgb);
+					            circles.add(frescura1);
 					    }
 					    circles.add(frescura);
-						county+= 25;
+						DrawLine linha = new DrawLine(parent, SWT.NONE);
+						linha.definir_ponto(30, county+20, countx+15);
+					    county+= 28;
 				}
+				
+				Button help = new Button(parent, SWT.NONE);
+				help.setText("help");
+				help.setSize(50,20);
+				help.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseUp(MouseEvent arg0) {
+						DialogHelper dialog = new DialogHelper(parent.getShell());
+					    dialog.create();	
+					    dialog.open() ;
+					}
+					
+					@Override
+					public void mouseDown(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseDoubleClick(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				help.setLocation(parent1.getParent().getSize().x-50 , 0);
+				
 				int lastchar = 0;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
