@@ -336,7 +336,31 @@ public class SampleView extends ViewPart {
 					}
 				});
 				help.setLocation(parent1.getParent().getSize().x-50 , 0);
-				
+				Button suggest = new Button(parent, SWT.NONE);
+				suggest.setText("suggest");
+				suggest.setSize(70,20);
+				suggest.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseUp(MouseEvent arg0) {
+						Dialogsugest dialog = new Dialogsugest(parent.getShell());
+					    dialog.create();	
+					    dialog.open() ;
+					}
+					
+					@Override
+					public void mouseDown(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseDoubleClick(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				suggest.setLocation(parent1.getParent().getSize().x-120 , 0);
 				int lastchar = 0;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
