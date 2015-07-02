@@ -30,7 +30,7 @@ public class Main {
 		for (Element classe  : classes) {
 		classe cla = new classe(classe); 
 		cla.getName();
-		int methodsCount = cla.getmethodsCount();
+		int methodsCount = 3;
 		
 		System.out.println("A Classe tem  "+ methodsCount +" metodos");
 		for (int index = 0 ; index<methodsCount; index++) {

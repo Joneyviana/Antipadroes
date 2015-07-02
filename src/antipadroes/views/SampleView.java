@@ -222,6 +222,7 @@ public class SampleView extends ViewPart {
 			private Color cinza_escuro;
 			private int parametros = 0;
 			private ArrayList<Element> labels;
+			private ArrayList<classe> lista_de_classes = new ArrayList<>() ;
 			private boolean add;
 			private boolean add2;
 
@@ -250,6 +251,7 @@ public class SampleView extends ViewPart {
 				float mediamethods = methods/(float)classes.size();
 				if (methods >=1){
 				parametros  = doc.select("ownedParameter").size()/methods;
+				classe.media = parametros ;
 				}
 				for(Label dispensado :lista){
 					int numero =lista.indexOf(dispensado);
@@ -261,7 +263,7 @@ public class SampleView extends ViewPart {
 				System.out.println("O modelo tem " +classes.size() +" classes");
 				for (Element classe  : classes) {
 					classe cla = new classe(classe); 
-					
+					lista_de_classes.add(cla);
 				     
 					Label label = new Label(parent, SWT.NONE);
 					 label.setText( cla.getName());
@@ -272,16 +274,16 @@ public class SampleView extends ViewPart {
 				     
 				      lista.add(label);
 				      MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
-					    if(cla.getmethodsCount()<= mediamethods) {
+					    if(cla.godclass()<= mediamethods) {
 					    	rgb = new RGB(80, 180,80);
 					    }
 					    else {
 					    	rgb = new RGB(200, 100,100);
 					    }
-					    frescura.definir_ponto(label.getSize().x +5, county, String.valueOf(cla.getmethodsCount()),rgb);
+					    frescura.definir_ponto(label.getSize().x +5, county, String.valueOf(cla.godclass()),rgb);
 					    countx = 0;
 					    county +=25;
-					    for (int index = 0 ; index<cla.getmethodsCount(); index++) {
+					    for (int index = 0 ; index<cla.godclass(); index++) {
 					    	
 					    	cla.getMethod(index).getName(); 
 					    	System.out.println("O metodo tem " +cla.getMethod(index).getparametros()+" parametros");
@@ -344,7 +346,8 @@ public class SampleView extends ViewPart {
 					@Override
 					public void mouseUp(MouseEvent arg0) {
 						Dialogsugest dialog = new Dialogsugest(parent.getShell());
-					    dialog.create();	
+					    dialog.setmodel(lista_de_classes);
+						dialog.create();	
 					    dialog.open() ;
 					}
 					

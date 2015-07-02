@@ -18,4 +18,8 @@ public int getparametros(){
 public String getName() {
 	return element.attr("name");
 }
+public boolean isLongparameter_long_list(int media){
+	
+return getparametros()>media ;
+}
 }

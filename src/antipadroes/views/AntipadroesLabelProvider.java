@@ -4,6 +4,8 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
+import teste.classe;
+
 public class AntipadroesLabelProvider extends LabelProvider implements
 ITableLabelProvider{
 
@@ -14,20 +16,20 @@ ITableLabelProvider{
 	}
 
 	public String getColumnText(Object element, int columnIndex) {
-		Person p = (Person) element;
+		classe cla = (classe) element;
 		String result = "";
 		switch(columnIndex){
 		case 0:
-			result = p.getFirst();
+			result = cla.getName();
 			break;
 		case 1:
-			result = p.getLast();
+			result = String.valueOf(cla.godclass());
 			break;
 		case 2:
-			result = p.getTitle();
+			result = String.valueOf(cla.longlistParameter());
 			break;
 		case 3:
-			result = p.getEmail();
+			result = cla.getName();
 			break;
 		default:
 			//should not reach here

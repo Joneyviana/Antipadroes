@@ -23,10 +23,13 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import teste.classe;
+
 public class Dialogsugest extends Dialog {
 
 	private Label facade;
 	private ArrayList<Person> persons;
+	private ArrayList<classe> model;
 
 	protected Dialogsugest(Shell parentShell) {
 		super(parentShell);
@@ -63,7 +66,7 @@ public class Dialogsugest extends Dialog {
 				column.setWidth(200);
 			}
 		 
-		 tableViewer.setInput(persons);
+		 tableViewer.setInput(model);
 		
 		
 		// Create rows
@@ -71,6 +74,11 @@ public class Dialogsugest extends Dialog {
 		// Make selection the same in both tables
 	
 		return area;
+		
+	}
+
+	public void setmodel(ArrayList<classe> lista_de_classes) {
+		model = lista_de_classes ;
 		
 	}
 
