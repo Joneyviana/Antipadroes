@@ -1,25 +1,19 @@
 package antipadroes.views;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.eclipse.swt.SWT;
+
+
+
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
+
 import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.LineAttributes;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
+
 
 
 
@@ -36,8 +30,6 @@ public class DrawLine extends Composite implements PaintListener{
 		private int height=5;
 		private int width;
 		private Device device;
-		private String str;
-		private RGB rgb;
 		private int x_initial;
 		private int x_final;
 
@@ -52,13 +44,13 @@ public class DrawLine extends Composite implements PaintListener{
 
 		
 		
-		public void definir_ponto(int x_initial , int y ,int x_final){
-			this.x_initial = x_initial ; 
-			this.x_final = x_final ;  
+		public void definir_ponto(int inicial_x , int y ,int final_x){
+			x_initial = inicial_x  ; 
+			x_final = final_x ;  
 			this.y = y ;
-			  this.str = str ;
 			 
-			   this.rgb = rgb ;
+			 
+			   
 			  
 			  if (x_initial > x_final){
 				 width = x_initial - x_final ;  

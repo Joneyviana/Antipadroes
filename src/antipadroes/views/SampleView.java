@@ -6,20 +6,18 @@ import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.MessageDialog;
+
+
+
 import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
+
 import org.eclipse.swt.SWT;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 
@@ -45,10 +43,9 @@ import java.util.ArrayList;
 
 
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
+
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.part.*;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -59,8 +56,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.custom.ScrolledComposite;
+
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
@@ -68,27 +64,17 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GCData;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
+
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.SWT;
+
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import teste.classe;
-//import org.jsoup.Jsoup;
-//import org.jsoup.nodes.Document;
-//import org.jsoup.nodes.Element;
-//import org.jsoup.select.Elements;
+import Model.EntityModel;
+
 
 
 
@@ -119,9 +105,7 @@ public class SampleView extends ViewPart {
 	public static final String ID = "umlmaster2.views.SampleView";
 	ListViewer viewer;
     private URI arquivo_uml ;
-	private Action action1;
-	private Action action2;
-	private Action doubleClickAction;
+
 	private IWorkspaceRoot root;
     private Color color;
     private Color color1 ;
@@ -130,6 +114,7 @@ public class SampleView extends ViewPart {
     private ArrayList<Label> lista = new ArrayList<>();
     private ArrayList<MiniCircle> circles = new ArrayList<>();
     private StyledText container;
+    
     /*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap
@@ -140,7 +125,7 @@ public class SampleView extends ViewPart {
 	 * (like Task List, for example).
 	 */
 	private StyleRange range;
-	private GridData gd;
+	
 	private Color cinza_escuro;
     private RGB rgb ;
 	 
@@ -215,16 +200,14 @@ public class SampleView extends ViewPart {
 			
 
 			private IResource resource;
-			private StyleRange range1;
-			private StyleRange range;
-			private StyleRange corname;
-			private StyleRange range2;
+			
+			
+			
 			private Color cinza_escuro;
 			private int parametros = 0;
-			private ArrayList<Element> labels;
-			private ArrayList<classe> lista_de_classes = new ArrayList<>() ;
-			private boolean add;
-			private boolean add2;
+			
+			private ArrayList<EntityModel> list_of_Entitys = new ArrayList<>() ;
+		
 
 			public void resourceChanged(IResourceChangeEvent event) {
         	    
@@ -237,34 +220,32 @@ public class SampleView extends ViewPart {
 				 cinza_escuro = new Color(device, 100,100,100);
 				 Color  prata = new Color(device, 220, 220, 220);
 				 make_path(recurso);
-        	
+				 list_of_Entitys.clear();
         		try {
         		File input = new File(arquivo_uml);
         		
         		Document doc = Jsoup.parse(input , "UTF-8");
 				
 				Elements classes = doc.select("packagedElement[xsi:type=\"uml:Class\"]");
-				System.out.println("tamanho!" + classes.size());
+				
 				int methods = (doc.select("ownedOperation").size());
 				int  countx = 100 ;
 				int county = 20;
 				float mediamethods = methods/(float)classes.size();
 				if (methods >=1){
 				parametros  = doc.select("ownedParameter").size()/methods;
-				classe.media = parametros ;
+				EntityModel.media = parametros ;
 				}
 				for(Label dispensado :lista){
 					int numero =lista.indexOf(dispensado);
 					dispensado.dispose();
 					circles.get(numero).dispose();
 				}
-				System.out.println("A media de métodos  por classe é "+ mediamethods );
-				System.out.println("A media de parametros por função é "+parametros );
-				System.out.println("O modelo tem " +classes.size() +" classes");
+				
 				for (Element classe  : classes) {
-					classe cla = new classe(classe); 
-					lista_de_classes.add(cla);
-				     
+					EntityModel cla = new EntityModel(classe); 
+					list_of_Entitys.add(cla);
+				   
 					Label label = new Label(parent, SWT.NONE);
 					 label.setText( cla.getName());
 				      label.setForeground(prata);
@@ -274,21 +255,22 @@ public class SampleView extends ViewPart {
 				     
 				      lista.add(label);
 				      MiniCircle frescura = new MiniCircle(parent, SWT.NONE);
-					    if(cla.godclass()<= mediamethods) {
+					    if(cla.numerodeMetodos()<= mediamethods) {
 					    	rgb = new RGB(80, 180,80);
 					    }
 					    else {
 					    	rgb = new RGB(200, 100,100);
 					    }
-					    frescura.definir_ponto(label.getSize().x +5, county, String.valueOf(cla.godclass()),rgb);
+					    frescura.definir_ponto(label.getSize().x +5, county, String.valueOf(cla.numerodeMetodos()),rgb);
 					    countx = 0;
 					    county +=25;
-					    for (int index = 0 ; index<cla.godclass(); index++) {
+					    for (int index = 0 ; index<cla.numerodeMetodos(); index++) {
 					    	
 					    	cla.getMethod(index).getName(); 
-					    	System.out.println("O metodo tem " +cla.getMethod(index).getparametros()+" parametros");
+					    	
 					    	Label label1 = new Label(parent, SWT.NONE);
-							 label1.setText( cla.getMethod(index).getName());
+							 
+					    	label1.setText( cla.getMethod(index).getName());
 						      label1.setForeground(prata);
 						      label1.setFont(new Font(device, fo));
 						      int largura = cla.getMethod(index).getName().length()*8;
@@ -315,7 +297,7 @@ public class SampleView extends ViewPart {
 				
 				Button help = new Button(parent, SWT.NONE);
 				help.setText("help");
-				help.setSize(50,20);
+				help.setSize(50,25);
 				help.addMouseListener(new MouseListener() {
 					
 					@Override
@@ -338,16 +320,18 @@ public class SampleView extends ViewPart {
 					}
 				});
 				help.setLocation(parent1.getParent().getSize().x-50 , 0);
-				Button suggest = new Button(parent, SWT.NONE);
-				suggest.setText("suggest");
-				suggest.setSize(70,20);
-				suggest.addMouseListener(new MouseListener() {
+				Button tabela = new Button(parent, SWT.NONE);
+				tabela.setText("exibir tabela");
+				tabela.setSize(170,25);
+				tabela.addMouseListener(new MouseListener() {
 					
 					@Override
 					public void mouseUp(MouseEvent arg0) {
-						Dialogsugest dialog = new Dialogsugest(parent.getShell());
-					    dialog.setmodel(lista_de_classes);
-						dialog.create();	
+						DialogtableAntipadroes dialog = new DialogtableAntipadroes(parent.getShell());
+					    dialog.setEntity(list_of_Entitys);
+						
+					    dialog.create();	
+					    
 					    dialog.open() ;
 					}
 					
@@ -363,8 +347,8 @@ public class SampleView extends ViewPart {
 						
 					}
 				});
-				suggest.setLocation(parent1.getParent().getSize().x-120 , 0);
-				int lastchar = 0;
+				tabela.setLocation(parent1.getParent().getSize().x-220 , 0);
+				
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -385,14 +369,15 @@ public class SampleView extends ViewPart {
         	 }
 
 			private void  make_path(IResourceDelta[]  recurso) {
-				IResourceDelta[]  recurso1  = recurso[0].getAffectedChildren();
+				IResourceDelta[]  recurso1   = recurso[0].getAffectedChildren();
+				if (recurso1[0].getFullPath().getFileExtension() != null){
 				if (recurso1[0].getFullPath().getFileExtension().equals("uml")){
 					resource = root.findMember(new Path("/"));
         		    IContainer contain = (IContainer) resource;
 					IFile file = contain.getFile(new Path(recurso1[0].getFullPath().toString()));
 			        arquivo_uml =  file.getLocationURI();
-				   System.out.println(file.getLocationURI());
-				}
+				   
+				}}
 				else {
 				if (recurso1.length!=0){
 					 make_path(recurso1);

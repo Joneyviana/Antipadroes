@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import teste.classe;
+import Model.EntityModel;
+
 
 public class AntipadrõesContentProvider implements IStructuredContentProvider {
 	public Object[] getElements(Object inputElement) {
-		ArrayList<classe>  w = (ArrayList) inputElement;
+		ArrayList<EntityModel>  w = (ArrayList) inputElement;
 		return w.toArray();
 	}
 	public void dispose() {

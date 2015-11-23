@@ -4,9 +4,10 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-import teste.classe;
+import Model.EntityModel;
 
-public class AntipadroesLabelProvider extends LabelProvider implements
+
+public class EntityLabelProvider extends LabelProvider implements
 ITableLabelProvider{
 
 	@Override
@@ -16,20 +17,20 @@ ITableLabelProvider{
 	}
 
 	public String getColumnText(Object element, int columnIndex) {
-		classe cla = (classe) element;
+		EntityModel entity = (EntityModel) element;
 		String result = "";
 		switch(columnIndex){
 		case 0:
-			result = cla.getName();
+			result = entity.getName();
 			break;
 		case 1:
-			result = String.valueOf(cla.godclass());
+			result = String.valueOf(entity.numerodeMetodos());
 			break;
 		case 2:
-			result = String.valueOf(cla.longlistParameter());
+			result = String.valueOf(entity.longlistParameter());
 			break;
 		case 3:
-			result = cla.getName();
+			result = entity.isDataClass() ;
 			break;
 		default:
 			//should not reach here
